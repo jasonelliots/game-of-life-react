@@ -1,6 +1,6 @@
-.App {
+/* .App {
   text-align: center;
-}
+} */
 
 .App-logo {
   height: 40vmin;
@@ -35,4 +35,47 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.bigContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+.grid {
+  margin: 1%; 
+  align-content: center; 
+  border: 5px solid black;
+  border-radius: 2px; 
+  opacity: 80%;
+  padding: 0 1px 0 0; 
+}
+
+.grid:hover {
+  opacity: 90%; 
+}
+
+button {
+  align-content: center; 
+  /* margin: auto 0;  */
+  /* margin-left: 5%;  */
+  width: 20%; 
+  border: 3px solid black;
+  border-radius: 2px; 
+  opacity: 80%; 
+}
+
+button:hover {
+  opacity: 100%; 
+  background-color: azure;  
+}
+
+body {
+  background-image: url('./background.png');
+}
+
+h1 {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-transform: uppercase; 
 }
