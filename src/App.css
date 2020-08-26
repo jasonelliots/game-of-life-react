@@ -152,9 +152,9 @@ button:focus {
 
 }
 
-body {
+/* body {
   background-image: url('./background.png');
-}
+} */
 
 h1 {
   font-family: 'Roboto Mono', monospace;
