@@ -235,7 +235,7 @@ function App() {
             )}
           </div>
           <div className="bottomButtons">
-            <div> Preset Patterns:</div>
+            <div> Preset patterns:</div>
             <button
               onClick={() => {
                 setGrid(generateRandomGrid());
@@ -306,7 +306,7 @@ function App() {
               preset patterns. Begin the simulation by clicking start.
             </div>
             <div className="rules">
-              <h3>Rules </h3>
+              <h3> Algorithim rules </h3>
               <div className="rulesText">
                 {" "}
                 <span role="img" aria-label="mushroom">
