@@ -61,6 +61,7 @@
   display: flex; 
   flex-direction: column; 
   align-items: center; 
+  opacity: 1.0; 
 }
 
 .rightContainer {
@@ -111,7 +112,7 @@
   align-content: center; 
   border: 5px solid black;
   border-radius: 2px; 
-  opacity: 80%;
+  opacity: 1.0;
   padding: 0 1px 0 0; 
   width: 88.1%; 
   display: grid;
@@ -129,7 +130,7 @@
 }
 
 .grid:hover {
-  opacity: 90%; 
+  opacity: .9; 
 }
 
 button {
@@ -138,12 +139,12 @@ button {
   width: 30%; 
   border: 3px solid black;
   border-radius: 2px; 
-  opacity: 80%; 
+  opacity: 0.8; 
   font-family: 'Roboto Mono', monospace;
 }
 
 button:hover {
-  opacity: 100%; 
+  opacity: 1.0; 
   background-color: azure;  
 }
 
@@ -153,7 +154,7 @@ button:focus {
 }
 
 body {
-  /* background-image: url('./background.png'); */
+  background-image: url('./background.png');
 }
 
 h1 {
