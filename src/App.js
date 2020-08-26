@@ -126,10 +126,14 @@ function App() {
   const [grid, setGrid] = useState(generateEmptyGrid());
   const [running, setRunning] = useState(false);
   const [generationCount, setGenerationCount] = useState(0);
+  const [speed, setSpeed] = useState(500);
 
   // gets current 'running' value for useCallback function below which only runs once
   const runningRef = useRef(running);
   runningRef.current = running;
+
+  const speedRef = useRef(speed);
+  speedRef.current = speed;
 
   // useCallback - so function isn't recreated every rerender
   const runSimulation = useCallback(() => {
@@ -140,8 +144,8 @@ function App() {
 
     setGenerationCount((c) => c + 1);
 
-    setGrid((g) => {
-      return produce(g, (gridCopy) => {
+    setGrid((oldGrid) => {
+      return produce(oldGrid, (gridCopy) => {
         // iterating through each cell in grid
         for (let i = 0; i < numRows; i++) {
           for (let j = 0; j < numCols; j++) {
@@ -156,7 +160,7 @@ function App() {
                 neighborJ >= 0 &&
                 neighborJ < numCols
               ) {
-                neighbors += g[neighborI][neighborJ];
+                neighbors += oldGrid[neighborI][neighborJ];
               }
             });
 
@@ -171,110 +175,164 @@ function App() {
       });
     });
 
-    setTimeout(runSimulation, 200);
+    setTimeout(runSimulation, speedRef.current);
   }, []);
 
   return (
     <div className="biggestContainer">
-      <h1>Conway's Game of Life <span role="img" aria-label="sprout">🌱</span></h1>
+      <h1>
+        Conway's Game of Life{" "}
+        <span role="img" aria-label="sprout">
+          🌱
+        </span>
+      </h1>
       <div className="bigContainer">
         <div className="leftContainer">
-        <div className="topButtons">
-        <button
-            onClick={() => {
-              setRunning(!running);
-              if (!running) {
-                runningRef.current = true;
-                runSimulation();
-              }
-            }}
-          >
-            {running ? "Stop" : "Start"}
-          </button>
-          <button
-            onClick={() => {
-              setGrid(generateEmptyGrid());
-              setGenerationCount(0);
-            }}
-          >
-            Clear
-          </button>
-          <button> Generation: {generationCount}</button>
+          <div className="topButtons">
+            <button
+              onClick={() => {
+                setRunning(!running);
+                if (!running) {
+                  runningRef.current = true;
+                  runSimulation();
+                }
+              }}
+            >
+              {running ? "Stop" : "Start"}
+            </button>
+            <button
+              onClick={() => {
+                setGrid(generateEmptyGrid());
+                setGenerationCount(0);
+              }}
+            >
+              Clear
+            </button>
+            <button> Generation: {generationCount}</button>
           </div>
+
           {/* end topButtons container */}
           <div className="grid">
-            
-              {grid.map((row, i) =>
-                // mapping through individual cells
-                row.map((col, k) => (
-                  <div className="cells"
-                    key={`${i}-${k}`}
-                    onClick={() => {
-                      if (!running) {
-                        const newGrid = produce(grid, (gridCopy) => {
-                          gridCopy[i][k] = grid[i][k] ? 0 : 1;
-                        });
-                        setGrid(newGrid);
-                      }
-                    }}
-                    style={{
-                      backgroundColor: grid[i][k] ? "green" : "white",
-                    }}
-                  />
-                ))
-              )}
-          
+            {grid.map((row, i) =>
+              // mapping through individual cells
+              row.map((col, k) => (
+                <div
+                  className="cells"
+                  key={`${i}-${k}`}
+                  onClick={() => {
+                    if (!running) {
+                      const newGrid = produce(grid, (gridCopy) => {
+                        gridCopy[i][k] = grid[i][k] ? 0 : 1;
+                      });
+                      setGrid(newGrid);
+                    }
+                  }}
+                  style={{
+                    backgroundColor: grid[i][k] ? "green" : "white",
+                  }}
+                />
+              ))
+            )}
           </div>
           <div className="bottomButtons">
-          <div> Preset Patterns:</div>
-          <button
-            onClick={() => {
-              setGrid(generateRandomGrid());
-            }}
-          >
-            Random
-          </button>
-        
-          <button
-            onClick={() => {
-              setGrid(generateGlider());
-            }}
-          >
-            Glider
-          </button>
-          <button
-            onClick={() => {
-              setGrid(generateBlinker());
-            }}
-          >
-            Blinker
-          </button>
-          <button
-            onClick={() => {
-              setGrid(generatePulsar());
-            }}
-          >
-            Pulsar
-          </button>
+            <div> Preset Patterns:</div>
+            <button
+              onClick={() => {
+                setGrid(generateRandomGrid());
+              }}
+            >
+              Random
+            </button>
+
+            <button
+              onClick={() => {
+                setGrid(generateGlider());
+              }}
+            >
+              Glider
+            </button>
+            <button
+              onClick={() => {
+                setGrid(generateBlinker());
+              }}
+            >
+              Blinker
+            </button>
+            <button
+              onClick={() => {
+                setGrid(generatePulsar());
+              }}
+            >
+              Pulsar
+            </button>
           </div>
           {/* end bottomButtons container */}
+          <div className="bottomButtons2">
+            <div> Adjust speed:</div>
+            <button
+              onClick={() => {
+                setSpeed(1000);
+              }}
+            >
+              {" "}
+              Slow
+            </button>
+            <button
+              onClick={() => {
+                setSpeed(500);
+              }}
+            >
+              {" "}
+              Medium
+            </button>
+            <button
+              onClick={() => {
+                setSpeed(100);
+              }}
+            >
+              {" "}
+              Fast
+            </button>
+          </div>
+
+          {/* end bottomButtons container2 */}
         </div>
         {/* end leftContainer */}
         <div className="rightContainer">
           <div className="description">
             <div className="play">
               <h3>Play</h3>
-              Click the cells you would like to bring alive or select one of the preset patterns. Begin the simulation by clicking start.  
+              Click the cells you would like to bring alive or select one of the
+              preset patterns. Begin the simulation by clicking start.
             </div>
             <div className="rules">
-              <h3>Rules </h3> 
-              <div className="rulesText"> <span role="img" aria-label="mushroom">🍄</span> Any live cell with fewer than two neighbors dies.</div>
-              <div className="rulesText"><span role="img" aria-label="mushroom">🍄</span> Any live cell with two or three live neighbors lives on.</div> 
-              <div className="rulesText"><span role="img" aria-label="mushroom">🍄</span> Any live cell with more than three live neighbors dies. </div>
-              <div className="rulesText"><span role="img" aria-label="mushroom">🍄</span> Any dead cell with exactly three live neighbors is born.</div>
-          
+              <h3>Rules </h3>
+              <div className="rulesText">
+                {" "}
+                <span role="img" aria-label="mushroom">
+                  🍄
+                </span>{" "}
+                Any live cell with fewer than two neighbors dies.
+              </div>
+              <div className="rulesText">
+                <span role="img" aria-label="mushroom">
+                  🍄
+                </span>{" "}
+                Any live cell with two or three live neighbors lives on.
+              </div>
+              <div className="rulesText">
+                <span role="img" aria-label="mushroom">
+                  🍄
+                </span>{" "}
+                Any live cell with more than three live neighbors dies.{" "}
+              </div>
+              <div className="rulesText">
+                <span role="img" aria-label="mushroom">
+                  🍄
+                </span>{" "}
+                Any dead cell with exactly three live neighbors is born.
+              </div>
             </div>
-
           </div>
           {/* end description container */}
         </div>
@@ -282,22 +340,22 @@ function App() {
       </div>
       {/* end bigContainer */}
       <div className="about">
-              <h3>About</h3>
-              Conway's Game of Life is a 'cellular automaton' invented by
-              mathmetician{" "}
-              <a href="https://www.youtube.com/watch?v=R9Plq-D1gEk">
-                John Conway
-              </a>. Using a few simple conditional rules (listed above), the
-              Turing-complete program simulates a certain evolutionary process
-              unfolding based upon it's initial state. Just as in nature, the
-              units in Conway's Game of Life respond and evolve with their
-              surrounding environment. John Conway passed away in April 2020,
-              but the Game of Life goes on.  <p>"Why are numbers beautiful? It’s
-              like asking why is Beethoven’s Ninth Symphony beautiful. If you
-              don’t see why, someone can’t tell you. I know numbers are
-              beautiful. If they aren’t beautiful, nothing is." - Paul Erdos</p>
-            </div>
-            {/* end about container */}
+        <h3>About</h3>
+        Conway's Game of Life is a 'cellular automaton' invented by mathmetician{" "}
+        <a href="https://www.youtube.com/watch?v=R9Plq-D1gEk">John Conway</a>.
+        Using a few simple conditional rules (listed above), the Turing-complete
+        program simulates a certain evolutionary process unfolding based upon
+        it's initial state. Just as in nature, the units in Conway's Game of
+        Life respond and evolve with their surrounding environment. John Conway
+        passed away in April 2020, but the Game of Life goes on.{" "}
+        <p>
+          "Why are numbers beautiful? It’s like asking why is Beethoven’s Ninth
+          Symphony beautiful. If you don’t see why, someone can’t tell you. I
+          know numbers are beautiful. If they aren’t beautiful, nothing is." -
+          Paul Erdos
+        </p>
+      </div>
+      {/* end about container */}
     </div>
     // end biggestContainer
   );

@@ -66,7 +66,7 @@
 .rightContainer {
   width: 50%; 
   padding: 1%; 
-  margin-top: 6%; 
+  margin-top: 7%; 
 }
 
 .play {
@@ -84,6 +84,14 @@
   width: 93%; 
   display: flex; 
   align-content: center;
+}
+
+.bottomButtons2 {
+  width: 93%;
+  height: 40px;  
+  display: flex; 
+  align-content: center;
+  margin-top: 2%; 
 }
 
 .rulesText {
@@ -125,8 +133,6 @@
 
 button {
   align-content: center; 
-  /* margin: auto 0;  */
-  /* margin-left: 5%;  */
   margin: 1%; 
   width: 30%; 
   border: 3px solid black;
@@ -155,8 +161,8 @@ h1 {
   letter-spacing: .1em;
   font-size: 40px; 
   font-weight: 1000;
-  margin-left: -22%; 
-  margin-bottom: 0%; 
+  /* margin-left: -22%;  */
+  /* margin-bottom: 0%;  */
 }
 
 body {
