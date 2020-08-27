@@ -350,7 +350,7 @@ function App() {
         Life respond and evolve with their surrounding environment. John Conway
         passed away in April 2020, but the Game of Life goes on.{" "}
         <p>
-          "Why are numbers beautiful? It’s like asking why is Beethoven’s Ninth
+          "Why are numbers <a href="https://www.youtube.com/watch?v=Aq51GfPmD54">beautiful</a>? It’s like asking why is Beethoven’s Ninth
           Symphony beautiful. If you don’t see why, someone can’t tell you. I
           know numbers are beautiful. If they aren’t beautiful, nothing is." -
           Paul Erdos
