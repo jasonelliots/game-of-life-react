@@ -184,7 +184,7 @@ function App() {
       <h1>
         Conway's Game of Life{" "}
         <span role="img" aria-label="sprout">
-          🌱
+        🍄
         </span>
       </h1>
       <div className="bigContainer">
