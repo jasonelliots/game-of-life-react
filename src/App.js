@@ -342,11 +342,11 @@ function App() {
       {/* end bigContainer */}
       <div className="about">
         <h3>About</h3>
-        Conway's Game of Life is a 'cellular automaton' invented by mathmetician{" "}
+        Conway's Game of Life is a 'cellular automaton' invented by mathemetician{" "}
         <a href="https://www.youtube.com/watch?v=R9Plq-D1gEk">John Conway</a>.
         Using a few simple conditional rules (listed above), the Turing-complete
         program simulates a certain evolutionary process unfolding based upon
-        it's initial state. Just as in nature, the units in Conway's Game of
+        its initial state. Just as in nature, the units in Conway's Game of
         Life respond and evolve with their surrounding environment. John Conway
         passed away in April 2020, but the Game of Life goes on.{" "}
         <p>
