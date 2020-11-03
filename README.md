@@ -2,7 +2,6 @@ A simple web app implementation of Conway's Game of Life. Using a few simple con
 
 Deployed application: https://game-of-life-react-zeta.vercel.app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
