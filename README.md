@@ -1,4 +1,7 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A simple web app implementation of Conway's Game of Life. Using a few simple conditional rules, the Turing-complete program simulates a certain evolutionary process unfolding based upon its initial state
+
+Deployed application: https://game-of-life-react-zeta.vercel.app
+
 
 ## Available Scripts
 
