@@ -2,6 +2,10 @@ A simple web app implementation of Conway's Game of Life. Using a few simple con
 
 Deployed application: https://game-of-life-react-zeta.vercel.app
 
+To Do:
+- update cell count 
+- refactor app component into smaller pieces 
+
 
 ## Available Scripts
 
