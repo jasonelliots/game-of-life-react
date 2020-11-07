@@ -356,7 +356,7 @@ function App() {
             </button>
             <button
               onClick={() => {
-                setSpeed(20);
+                setSpeed(35);
               }}
             >
               {" "}
