@@ -2,11 +2,10 @@ import React, { useState, useCallback, useRef } from "react";
 import produce from "immer";
 import "./App.css";
 
-
 // setting dimensions for grid
 
-const numRows = 25;
-const numCols = 25;
+const numRows = 60;
+const numCols = 60;
 
 const neighborLocations = [
   [0, 1],
@@ -121,13 +120,75 @@ const generatePulsar = () => {
   return pulsarGrid;
 };
 
+const genTri = (numRows = 60, numCols = 60) => {
+  let newGrid = [];
+  for (let i = 0; i < numRows; i++) {
+    newGrid.push(Array.from(Array(numCols), () => 0));
+    for (let j = 0; j < numCols; j++) {
+      if (i % 2 !== 0) {
+        if (j >= i || j <= numCols - 1 - i) {
+          newGrid[i][j] = 1;
+        }
+      }
+    }
+  }
+  return newGrid;
+};
+
+const genHourGlass = (numRows = 60, numCols = 60) => {
+  let newGrid = [];
+  for (let i = 0; i < numRows; i++) {
+    newGrid.push(Array.from(Array(numCols), () => 0));
+    for (let j = 0; j < numCols; j++) {
+      if (i % 2 !== 0 && i < numRows / 2) {
+        if (j >= i && j <= numCols - 1 - i) {
+          newGrid[i][j] = 1;
+        }
+      } else if (i % 2 !== 0 && i > numRows / 2) {
+        if (j <= i && j >= numCols - 1 - i) {
+          newGrid[i][j] = 1;
+        }
+      }
+    }
+  }
+  return newGrid;
+};
+
+const genRect = (numRows = 60, numCols = 60) => {
+  let newGrid = [];
+  for (let i = 0; i < numRows; i++) {
+    newGrid.push(Array.from(Array(numCols), () => 0));
+    for (let j = 0; j < numCols; j++) {
+      if (i % 2 !== 0 && i < numRows / 2) {
+        if (j >= i && j <= numCols - 1 - i) {
+          newGrid[i][j] = 1;
+        }
+      } else if (i % 2 !== 0 && i > numRows / 2) {
+        if (j <= i && j >= numCols - 1 - i) {
+          newGrid[i][j] = 1;
+        }
+      }
+
+      if (j % 2 !== 0 && j < numCols / 2) {
+        if (i >= j && i < numRows - 1 - j) {
+          newGrid[i][j] = 1;
+        }
+      } else if (j % 2 !== 0 && j > numCols / 2) {
+        if (i <= j && i > numRows - 1 - j) {
+          newGrid[i][j] = 1;
+        }
+      }
+    }
+  }
+  return newGrid;
+};
+
 function App() {
   // setting state to initialize empty grid
-
-  const [grid, setGrid] = useState(generateEmptyGrid());
+  const [grid, setGrid] = useState(generateRandomGrid());
   const [running, setRunning] = useState(false);
   const [generationCount, setGenerationCount] = useState(0);
-  const [speed, setSpeed] = useState(500);
+  const [speed, setSpeed] = useState(120);
 
   // gets current 'running' value for useCallback function below which only runs once
   const runningRef = useRef(running);
@@ -184,7 +245,7 @@ function App() {
       <h1>
         Conway's Game of Life{" "}
         <span role="img" aria-label="sprout">
-        🍄
+          🍄
         </span>
       </h1>
       <div className="bigContainer">
@@ -229,42 +290,49 @@ function App() {
                     }
                   }}
                   style={{
-                    backgroundColor: grid[i][k] ? "green" : "white",
+                    backgroundColor: grid[i][k] ? "green" : "black",
                   }}
                 />
               ))
             )}
           </div>
           <div className="bottomButtons">
-            <div> Preset patterns:</div>
+            <div> <br />Preset patterns:</div>
             <button
               onClick={() => {
                 setGrid(generateRandomGrid());
               }}
+
+              className="presetButton"
             >
-              Random
+              <img src="random.png" alt="maze" className="pattern" />
             </button>
 
             <button
               onClick={() => {
-                setGrid(generateGlider());
+                setGrid(genRect());
               }}
+
+              className="presetButton"
             >
-              Glider
+              <img src="maze.png" alt="maze" className="pattern" />
             </button>
             <button
               onClick={() => {
-                setGrid(generateBlinker());
+                setGrid(genHourGlass());
               }}
+              className="presetButton"
             >
-              Blinker
+              <img src="hourglass.png" alt="maze" className="pattern" />
             </button>
             <button
               onClick={() => {
-                setGrid(generatePulsar());
+                setGrid(genTri());
               }}
+
+              className="presetButton"
             >
-              Pulsar
+              <img src="tri.png" alt="maze" className="pattern" />
             </button>
           </div>
           {/* end bottomButtons container */}
@@ -272,7 +340,7 @@ function App() {
             <div> Adjust speed:</div>
             <button
               onClick={() => {
-                setSpeed(1000);
+                setSpeed(600);
               }}
             >
               {" "}
@@ -280,7 +348,7 @@ function App() {
             </button>
             <button
               onClick={() => {
-                setSpeed(500);
+                setSpeed(120);
               }}
             >
               {" "}
@@ -288,7 +356,7 @@ function App() {
             </button>
             <button
               onClick={() => {
-                setSpeed(100);
+                setSpeed(10);
               }}
             >
               {" "}
@@ -342,18 +410,20 @@ function App() {
       {/* end bigContainer */}
       <div className="about">
         <h3>About</h3>
-        Conway's Game of Life is a 'cellular automaton' invented by mathemetician{" "}
+        Conway's Game of Life is a 'cellular automaton' invented by
+        mathemetician{" "}
         <a href="https://www.youtube.com/watch?v=R9Plq-D1gEk">John Conway</a>.
         Using a few simple conditional rules (listed above), the Turing-complete
         program simulates a certain evolutionary process unfolding based upon
-        its initial state. Just as in nature, the units in Conway's Game of
-        Life respond and evolve with their surrounding environment. John Conway
+        its initial state. Just as in nature, the units in Conway's Game of Life
+        respond and evolve with their surrounding environment. John Conway
         passed away in April 2020, but the Game of Life goes on.{" "}
         <p>
-          "Why are numbers <a href="https://www.youtube.com/watch?v=Aq51GfPmD54">beautiful</a>? It’s like asking why is Beethoven’s Ninth
-          Symphony beautiful. If you don’t see why, someone can’t tell you. I
-          know numbers are beautiful. If they aren’t beautiful, nothing is." -
-          Paul Erdos
+          "Why are numbers{" "}
+          <a href="https://www.youtube.com/watch?v=Aq51GfPmD54">beautiful</a>?
+          It’s like asking why is Beethoven’s Ninth Symphony beautiful. If you
+          don’t see why, someone can’t tell you. I know numbers are beautiful.
+          If they aren’t beautiful, nothing is." - Paul Erdos
         </p>
       </div>
       {/* end about container */}
